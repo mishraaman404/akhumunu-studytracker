@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Only Akhu and Munu (signed in with Google) can read or write anything.
+    // Change both emails below to match config.js, in lowercase.
+    function allowed() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['akhu@gmail.com', 'munu@gmail.com'];
+    }
+    match /{document=**} {
+      allow read, write: if allowed();
+    }
+  }
+}

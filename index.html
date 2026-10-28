@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Akhu &amp; Munu – Study Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0f5;--card:#fff;--ink:#1b1f2e;--mut:#646b82;--line:#dfe3ee;--a:#3355d6;--m:#d12f6b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141c;--card:#1c2030;--ink:#eceef6;--mut:#a0a7bf;--line:#2d3248;--a:#8ea2ff;--m:#ff80ab}}
+:root[data-theme="dark"]{--bg:#12141c;--card:#1c2030;--ink:#eceef6;--mut:#a0a7bf;--line:#2d3248;--a:#8ea2ff;--m:#ff80ab}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 "DM Sans",system-ui,sans-serif}
+#app{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+h1,h2,.big{font-family:Fraunces,Georgia,serif;margin:0}
+h1{font-size:30px;letter-spacing:-.01em}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.sub{color:var(--mut);margin:2px 0 0}
+.who{font-size:13px;color:var(--mut)}
+.who b{color:var(--c)}
+nav{display:flex;gap:6px;margin:16px 0;overflow-x:auto}
+nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 16px;border-radius:99px;font:500 14px "DM Sans";cursor:pointer}
+nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--c,var(--a));outline-offset:2px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c,var(--line));border-radius:14px;padding:16px;margin-bottom:14px}
+.grid .card{margin:0}
+.card header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.card h2{font-size:21px}
+.big{font-size:34px;font-weight:700;color:var(--c)}
+.bar{flex:1;height:8px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c,var(--a));transition:width .3s}
+.mut{color:var(--mut);font-size:13px;margin:8px 0 0}
+.task{padding:11px 0;border-top:1px solid var(--line)}
+.tt{display:flex;gap:8px;align-items:center}
+.tt span{flex:1;overflow-wrap:anywhere}
+.tt em{font-style:normal;font-size:12px;padding:2px 9px;border-radius:99px;background:var(--line);color:var(--mut);max-width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.x,.ok{border:0;background:none;color:var(--mut);font-size:18px;padding:0 6px;line-height:1}
+.ok{color:var(--c);font-weight:700}
+.pr{display:flex;align-items:center;gap:10px;margin-top:6px}
+.pr input{flex:1;accent-color:var(--c)}
+.pv{width:42px;text-align:right;font-weight:700;font-size:13px;color:var(--c)}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+input[type=text],select,textarea,input[type=date],input[type=number]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+.add input[type=text]{flex:1 1 180px;min-width:0}
+textarea{width:100%;min-height:76px;resize:vertical}
+.btn{border:0;background:var(--c,var(--ink));color:#fff;padding:9px 16px;border-radius:10px;font-weight:700}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink);padding:6px 12px;border-radius:10px;font-size:13px}
+.dn{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.dn strong{font:700 18px Fraunces,serif;margin:0 4px}
+.note{border-left:4px solid var(--c);background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:14px;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.note small{color:var(--mut)}
+.note p{margin:3px 0 0;overflow-wrap:anywhere;white-space:pre-wrap}
+.mini{display:grid;grid-template-columns:44px 52px 1fr auto;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:13px}
+details{margin-top:10px}summary{cursor:pointer;color:var(--mut);font-size:13px}
+.acts{display:flex;gap:8px;margin-top:10px}
+.goal.done{opacity:.7}
+.chart{width:100%;height:auto}.chart text{fill:var(--mut);font-size:11px}
+.stats{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin-bottom:14px}
+.stats .card{margin:0}.stats dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin:8px 0 0}.stats dt{color:var(--mut)}.stats dd{margin:0;font-weight:700;text-align:right}
+.hrow{display:grid;grid-template-columns:130px 1fr 1fr;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:10px 0;color:var(--ink)}
+.hrow .pr{margin:0}
+.pick{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px}.pick .btn{font-size:20px;padding:22px 34px;font-family:Fraunces,serif}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:14px;display:none}
+@media(max-width:520px){.hrow{grid-template-columns:1fr}}
+</style></head><body>
+<div id="app"><p class="mut">Connecting…</p></div><div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso=d=>d.toLocaleDateString('en-CA'),NAME={akhu:'Akhu',munu:'Munu'},col={akhu:'var(--a)',munu:'var(--m)'};
+const other=w=>w==='akhu'?'munu':'akhu',avg=a=>a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):null;
+const dayPct=d=>d&&d.tasks&&d.tasks.length?avg(d.tasks.map(t=>t.p)):null,dd=(w,dt)=>days[w+'_'+dt];
+const fp=p=>p===null||p===undefined?'–':p+'%';
+let db=null,me=null,uid=null,tab='today',date=iso(new Date()),goals=[],days={},notes=[],state='load',mail='';
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',3500)}
+const save=(p,o)=>db.doc(p).set(o).catch(e=>toast('Couldn’t save: '+(e&&(e.message||e.code)||'try again')));
+const allTasks=()=>Object.values(days).flatMap(d=>(d.tasks||[]).map(t=>({...t,who:d.who,date:d.date})));
+function lastN(w,n){const r=[];for(let i=0;i<n;i++){const d=new Date();d.setDate(d.getDate()-i);const p=dayPct(dd(w,iso(d)));if(p!==null)r.push(p)}return avg(r)}
+function allAvg(w){return avg(Object.values(days).filter(d=>d.who===w).map(dayPct).filter(p=>p!==null))}
+function mutate(fn){const id=me+'_'+date,o=days[id],doc={...(o||{}),who:me,date,tasks:[...(o&&o.tasks||[])]};fn(doc.tasks,doc);days[id]=doc;render();save('days/'+id,doc)}
+function streak(w){let n=0;const d=new Date(),ok=p=>p!==null&&p>=50;if(!ok(dayPct(dd(w,iso(d)))))d.setDate(d.getDate()-1);while(ok(dayPct(dd(w,iso(d))))){n++;d.setDate(d.getDate()-1)}return n}
+function dl(due){const n=Math.round((new Date(due+'T00:00')-new Date(iso(new Date())+'T00:00'))/864e5);return n>0?n+' day'+(n==1?'':'s')+' left':n==0?'due today':-n+' day'+(n==-1?'':'s')+' overdue'}
+const row=(t,mine)=>{const g=goals.find(x=>x.id===t.g);return `<div class="task"><div class="tt"><span>${esc(t.t)}</span>${g?`<em>${esc(g.title)}</em>`:''}${mine?`<button class="x" data-a="delt" data-id="${t.id}" aria-label="Remove target">×</button>`:''}</div><div class="pr">${mine?`<input type="range" min="0" max="100" step="5" value="${t.p}" data-id="${t.id}" data-r aria-label="Completion of ${esc(t.t)}"><span class="pv">${t.p}%</span><button class="ok" data-a="full" data-id="${t.id}" aria-label="Mark done">✓</button>`:`<div class="bar"><i style="width:${t.p}%"></i></div><span class="pv">${t.p}%</span>`}</div></div>`};
+function panel(w){const mine=w===me,d=dd(w,date),ts=d&&d.tasks||[],p=dayPct(d);
+return `<section class="card" style="--c:${col[w]}"><header><h2>${NAME[w]}${mine?' (you)':''}</h2><span class="big">${fp(p)}</span></header><div class="bar"><i style="width:${p||0}%"></i></div><p class="mut" style="margin:6px 0 4px">7-day average ${fp(lastN(w,7))}, streak ${streak(w)} day${streak(w)==1?'':'s'}</p>${mine?`<label class="mut">Time studied <input type="number" id="mn" min="0" max="1440" step="5" value="${d&&d.mins||''}" placeholder="0" style="width:84px"> minutes</label>`:`<p class="mut" style="margin:0">Studied ${d&&d.mins||0} minutes</p>`}${ts.map(t=>row(t,mine)).join('')||`<p class="mut">${mine?'No targets yet. Add your first one below.':NAME[w]+' hasn’t added targets for this day.'}</p>`}${mine?`<div class="add"><input type="text" id="nt" data-keep maxlength="140" placeholder="Add a target" aria-label="New target"><select id="ng" data-keep aria-label="Goal"><option value="">No goal</option>${goals.filter(g=>!g.done).map(g=>`<option value="${g.id}">${esc(g.title)}</option>`).join('')}</select><button class="btn" data-a="addt">Add</button><button class="ghost" data-a="carry">Carry over unfinished</button></div>`:''}</section>`}
+function todayView(){const n=notes.find(x=>x.from===other(me)),lbl=new Date(date+'T00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+return `<div class="dn"><button class="ghost" data-a="sh" data-n="-1" aria-label="Previous day">‹</button><strong>${date===iso(new Date())?'Today, ':''}${lbl}</strong><button class="ghost" data-a="sh" data-n="1" aria-label="Next day">›</button><input type="date" id="dp" value="${date}" aria-label="Pick date"><button class="ghost" data-a="td">Today</button></div>${n?`<div class="note" style="--c:${col[n.from]}"><small>Latest note from ${NAME[n.from]}</small><p>${esc(n.text)}</p></div>`:''}<div class="grid">${panel(me)}${panel(other(me))}</div>`}
+function goalsView(){return `<div class="card" style="--c:var(--ink)"><h2>Start a goal</h2><div class="add"><input type="text" id="gt" data-keep maxlength="100" placeholder="e.g. Finish the Physics syllabus" aria-label="Goal name"><input type="date" id="gd" data-keep aria-label="Target date"><button class="btn" data-a="addg">Start goal</button></div><p class="mut">Pick a goal when adding daily targets. Its progress is the average completion of every target under it.</p></div>`+(goals.map(g=>{const ts=allTasks().filter(t=>t.g===g.id).sort((a,b)=>a.date<b.date?1:-1),p=avg(ts.map(t=>t.p));
+return `<section class="card goal ${g.done?'done':''}" style="--c:${col[g.owner]}"><header><h2>${esc(g.title)}</h2><span class="big">${fp(p)}</span></header><div class="bar"><i style="width:${p||0}%"></i></div><p class="mut">Started by ${NAME[g.owner]}, ${ts.length} target${ts.length==1?'':'s'} so far${g.due?', due '+new Date(g.due+'T00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'})+' ('+dl(g.due)+')':''}${g.done?', completed':''}</p><details><summary>See targets</summary>${ts.slice(0,40).map(t=>`<div class="mini"><span>${t.date.slice(5)}</span><span style="color:${col[t.who]}">${NAME[t.who]}</span><span>${esc(t.t)}</span><b>${t.p}%</b></div>`).join('')||'<p class="mut">None yet. Pick this goal when adding a target on the Today tab.</p>'}</details><div class="acts"><button class="ghost" data-a="tg" data-id="${g.id}">${g.done?'Reopen':'Mark complete'}</button><button class="ghost" data-a="dg" data-id="${g.id}">Delete</button></div></section>`}).join('')||'<p class="mut">No goals yet.</p>')}
+function notesView(){return `<div class="card" style="--c:${col[me]}"><h2>Note to ${NAME[other(me)]}</h2><div class="add"><textarea id="nn" data-keep maxlength="500" placeholder="A word of encouragement, a plan for tomorrow…" aria-label="Note"></textarea><button class="btn" data-a="sn">Send note</button></div></div>`+(notes.map(n=>`<div class="note" style="--c:${col[n.from]}"><small>${NAME[n.from]} to ${NAME[n.to]}, ${new Date(n.at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}</small><p>${esc(n.text)}</p></div>`).join('')||'<p class="mut">No notes yet.</p>')}
+function chart(){const ds=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);ds.push(iso(d))}const W=700,H=140,bw=W/14,h=(bw-12)/2;let s=`<svg viewBox="0 0 ${W} ${H+20}" class="chart" role="img" aria-label="Daily productivity for the last 14 days">`;
+[0,50,100].forEach(v=>s+=`<line x1="0" x2="${W}" y1="${H-v*H/100}" y2="${H-v*H/100}" stroke="var(--line)"/>`);
+ds.forEach((dt,i)=>{['akhu','munu'].forEach((w,j)=>{const p=dayPct(dd(w,dt))||0;s+=`<rect x="${i*bw+6+j*h}" y="${H-p*H/100}" width="${h-1}" height="${p*H/100}" rx="2" style="fill:${col[w]}"/>`});s+=`<text x="${i*bw+bw/2}" y="${H+15}" text-anchor="middle">${dt.slice(8)}</text>`});return s+'</svg>'}
+function histView(){const dates=[...new Set(Object.values(days).map(d=>d.date))].sort().reverse(),all=allTasks();
+const st=w=>{const t=all.filter(x=>x.who===w);return `<div class="card" style="--c:${col[w]}"><h2>${NAME[w]}</h2><dl><dt>Overall productivity</dt><dd>${fp(allAvg(w))}</dd><dt>Last 7 days</dt><dd>${fp(lastN(w,7))}</dd><dt>Days tracked</dt><dd>${Object.values(days).filter(d=>d.who===w&&dayPct(d)!==null).length}</dd><dt>Targets fully done</dt><dd>${t.filter(x=>x.p===100).length} of ${t.length}</dd><dt>Time studied</dt><dd>${Math.round(Object.values(days).filter(d=>d.who===w).reduce((a,d)=>a+(d.mins||0),0)/6)/10} hours</dd><dt>Current streak</dt><dd>${streak(w)} day${streak(w)==1?'':'s'}</dd></dl></div>`};
+return `<div class="stats">${st('akhu')}${st('munu')}</div><div class="card" style="--c:var(--ink)"><h2>Last 14 days</h2><p class="mut" style="margin:2px 0 8px"><b style="color:var(--a)">Akhu</b> and <b style="color:var(--m)">Munu</b>, daily completion</p>${chart()}</div><div class="card" style="--c:var(--ink)"><h2>Every day so far</h2><div class="acts"><button class="ghost" data-a="csv">Download as CSV</button></div>${dates.map(dt=>`<button class="hrow" data-a="open" data-d="${dt}"><span>${new Date(dt+'T00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}</span>${['akhu','munu'].map(w=>`<span class="pr" style="--c:${col[w]}"><span class="bar"><i style="width:${dayPct(dd(w,dt))||0}%"></i></span><span class="pv">${fp(dayPct(dd(w,dt)))}</span></span>`).join('')}</button>`).join('')||'<p class="mut">History will appear here once you add targets.</p>'}</div>`}
+function render(){const keep={};document.querySelectorAll('[data-keep]').forEach(e=>keep[e.id]=e.value);const af=document.activeElement&&document.activeElement.id;let h;
+if(state==='load')h='<p class="mut">Connecting…</p>';
+else if(state==='signin')h='<h1>Akhu &amp; Munu</h1><p class="sub">Sign in with your Google account to open your shared study tracker.</p><div class="pick"><button class="btn" style="--c:var(--ink)" data-a="signin">Sign in with Google</button></div>';
+else if(state==='denied')h=`<h1>Akhu &amp; Munu</h1><p class="sub">${esc(mail)} isn’t on this tracker’s allowed list. Sign in with the Google account added in config.js.</p><div class="pick"><button class="btn" style="--c:var(--ink)" data-a="out">Use another account</button></div>`;
+else if(state==='off')h='<h1>Akhu &amp; Munu</h1><p class="sub">Couldn’t connect. Check config.js and the Firebase setup in the README, then reload.</p>';
+else h=`<div class="top"><div><h1>Akhu &amp; Munu</h1><p class="sub">Daily study targets, shared</p></div><div class="who" style="--c:${col[me]}">Signed in as <b>${NAME[me]}</b> <button class="ghost" data-a="out">Sign out</button></div></div><nav aria-label="Sections">${[['today','Today'],['goals','Goals'],['notes','Notes'],['hist','History']].map(([k,l])=>`<button class="${tab===k?'on':''}" data-a="tab" data-k="${k}">${l}</button>`).join('')}</nav>${{today:todayView,goals:goalsView,notes:notesView,hist:histView}[tab]()}`;
+app.innerHTML=h;for(const k in keep){const e=document.getElementById(k);if(e)e.value=keep[k]}
+if(af){const e=document.getElementById(af);if(e&&e.dataset.keep!==undefined)e.focus()}}
+const A={
+out:()=>window.doOut&&window.doOut(),signin:()=>window.doIn&&window.doIn(),tab:e=>{tab=e.dataset.k;render()},
+sh:e=>{const d=new Date(date+'T00:00');d.setDate(d.getDate()+ +e.dataset.n);date=iso(d);render()},td:()=>{date=iso(new Date());render()},
+open:e=>{date=e.dataset.d;tab='today';render()},
+addt:()=>{const v=$('#nt').value.trim();if(!v)return;const g=$('#ng').value||null;$('#nt').value='';mutate(ts=>ts.push({id:Math.random().toString(36).slice(2,9),t:v,g,p:0}))},
+delt:e=>mutate(ts=>{const i=ts.findIndex(t=>t.id===e.dataset.id);if(i>-1)ts.splice(i,1)}),
+full:e=>mutate(ts=>{const t=ts.find(t=>t.id===e.dataset.id);if(t)t.p=100}),
+addg:()=>{const v=$('#gt').value.trim();if(!v)return;const due=$('#gd').value||null;$('#gt').value='';$('#gd').value='';save('goals/g'+Date.now().toString(36),{title:v,owner:me,done:false,due,at:new Date().toISOString()})},
+tg:e=>{const g=goals.find(x=>x.id===e.dataset.id);if(g){const{id,...r}=g;save('goals/'+id,{...r,done:!g.done})}},
+dg:e=>{if(!e.dataset.arm){e.dataset.arm=1;e.textContent='Tap again to delete';return}db.doc('goals/'+e.dataset.id).delete().catch(()=>toast('Couldn’t delete'))},
+carry:()=>{const p=Object.values(days).filter(d=>d.who===me&&d.date<date&&(d.tasks||[]).length).sort((a,b)=>a.date<b.date?1:-1)[0];if(!p)return toast('No earlier day to carry over from');const u=p.tasks.filter(t=>t.p<100);if(!u.length)return toast('Everything was finished. Nice!');mutate(ts=>u.forEach(t=>{if(!ts.some(x=>x.t===t.t))ts.push({id:Math.random().toString(36).slice(2,9),t:t.t,g:t.g||null,p:0})}))},
+csv:()=>{const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"',r=[['date','person','target','goal','completion_percent']];allTasks().sort((a,b)=>a.date<b.date?-1:1).forEach(t=>{const g=goals.find(x=>x.id===t.g);r.push([t.date,NAME[t.who],t.t,g?g.title:'',t.p])});const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([r.map(x=>x.map(q).join(',')).join('\n')],{type:'text/csv'}));a.download='study-history.csv';a.click()},
+sn:()=>{const v=$('#nn').value.trim();if(!v)return;$('#nn').value='';save('notes/n'+Date.now().toString(36),{from:me,to:other(me),text:v,at:new Date().toISOString()})}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&A[b.dataset.a])A[b.dataset.a](b)});
+document.addEventListener('input',e=>{if(e.target.dataset.r!==undefined)e.target.parentNode.querySelector('.pv').textContent=e.target.value+'%'});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.r!==undefined)mutate(ts=>{const x=ts.find(k=>k.id===t.dataset.id);if(x)x.p=+t.value});else if(t.id==='dp'&&t.value){date=t.value;render()}else if(t.id==='mn')mutate((ts,doc)=>{doc.mins=Math.max(0,Math.min(1440,+t.value||0))})});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='nt')A.addt();if(e.key==='Enter'&&e.target.id==='gt')A.addg()});
+function sub(){const f=(n,fn)=>db.collection(n).onSnapshot(s=>{fn(s);render()},()=>{});
+f('goals',s=>goals=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.at||'')<(b.at||'')?-1:1));
+f('days',s=>{days={};s.docs.forEach(d=>days[d.id]=d.data())});
+f('notes',s=>notes=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.at||'')<(b.at||'')?1:-1))}
+window.boot=(d,w)=>{db=d;me=w;state='ok';tab='today';sub();render()};window.setState=(m,e)=>{state=m;mail=e||'';render()};
+</script><script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,collection,setDoc,getDoc,deleteDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {FIREBASE,PEOPLE} from "./config.js";
+try{
+ if(String(FIREBASE.apiKey).startsWith('PASTE'))throw new Error('config');
+ const app=initializeApp(FIREBASE),auth=getAuth(app),fs=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})}),prov=new GoogleAuthProvider();
+ const db={doc:p=>({set:o=>setDoc(doc(fs,p),o),get:()=>getDoc(doc(fs,p)).then(s=>({exists:s.exists(),data:()=>s.data()})),delete:()=>deleteDoc(doc(fs,p))}),
+  collection:n=>({onSnapshot:(ok,er)=>onSnapshot(collection(fs,n),s=>ok({docs:s.docs.map(d=>({id:d.id,data:()=>d.data()}))}),er)})};
+ window.doIn=async()=>{try{await signInWithPopup(auth,prov)}catch(e){if(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment')signInWithRedirect(auth,prov)}};
+ window.doOut=()=>signOut(auth);
+ let on=false;
+ onAuthStateChanged(auth,u=>{
+  if(!u){on=false;return window.setState('signin')}
+  const em=(u.email||'').toLowerCase(),who=Object.keys(PEOPLE).find(k=>PEOPLE[k].toLowerCase()===em);
+  if(!who)return window.setState('denied',em);
+  if(on)return;on=true;window.boot(db,who)
+ });
+}catch(e){window.setState('off')}
+</script>
+</body></html>
