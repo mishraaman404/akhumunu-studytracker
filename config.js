@@ -8,5 +8,5 @@ export const FIREBASE = {
 };
 export const PEOPLE = {
   akhu: "amishra52466@gmail.com",
-  munu: "tinkuwww19@gmail.com"
+  munu: "tinkuwww119@gmail.com"
 };
